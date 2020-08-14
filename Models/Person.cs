@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DotnetCorePractice.Models
 {
-    public partial class Person
+    public partial class Person : ITrack
     {
         public Person()
         {
@@ -23,5 +23,7 @@ namespace DotnetCorePractice.Models
         public virtual ICollection<CourseInstructor> CourseInstructor { get; set; }
         public virtual ICollection<Department> Department { get; set; }
         public virtual ICollection<Enrollment> Enrollment { get; set; }
+        public bool? IsDeleted { get; set; }
+        public DateTime? DateModified { get; set; }
     }
 }

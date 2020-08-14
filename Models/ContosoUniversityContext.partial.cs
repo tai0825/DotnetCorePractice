@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ namespace DotnetCorePractice.Models
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             var entries = this.ChangeTracker.Entries();
-
             foreach (var entity in entries)
             {
                 var department = entity.Entity as Department;
@@ -37,8 +37,28 @@ namespace DotnetCorePractice.Models
                             Department.FromSqlInterpolated($"EXECUTE dbo.Department_Update {department.DepartmentId}, {department.RowVersion}")
                               .IgnoreQueryFilters()
                               .AsEnumerable();
-                          break;
+                            break;
                     }
+                }
+                else
+                {
+                  var tt = entity.Entity is ITrack;
+                  var ttt = entity.Entity as ITrack;
+                  if (entity.Entity is ITrack)
+                  {
+                      var track = entity.Entity as ITrack;
+                      switch (entity.State)
+                      {
+                          case EntityState.Modified:
+                            track.DateModified = DateTime.Now;
+                            break;
+                          case EntityState.Deleted:
+                            entity.State = EntityState.Modified;
+                            track.IsDeleted = true;
+                            track.DateModified = DateTime.Now;
+                            break;
+                      }
+                  }
                 }
             }
 

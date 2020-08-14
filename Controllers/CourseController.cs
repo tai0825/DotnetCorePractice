@@ -101,6 +101,18 @@ namespace DotnetCorePractice.Controllers
             return course;
         }
 
+        [HttpGet("CourseCount")]
+        public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetCourseCount()
+        {
+            return await _context.VwDepartmentCourseCount.ToListAsync();
+        }
+
+        [HttpGet("CourseStudent")]
+        public async Task<ActionResult<IEnumerable<VwCourseStudents>>> GetCourseStudents()
+        {
+            return await _context.VwCourseStudents.ToListAsync();
+        }
+
         private bool CourseExists(int id)
         {
             return _context.Course.Any(e => e.CourseId == id);

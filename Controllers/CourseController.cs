@@ -104,7 +104,9 @@ namespace DotnetCorePractice.Controllers
         [HttpGet("CourseCount")]
         public async Task<ActionResult<IEnumerable<VwDepartmentCourseCount>>> GetCourseCount()
         {
-            return await _context.VwDepartmentCourseCount.ToListAsync();
+            return await _context.VwDepartmentCourseCount
+                    .FromSqlRaw("SELECT * FROM dbo.VwDepartmentCourseCount")
+                    .ToListAsync();
         }
 
         [HttpGet("CourseStudent")]
